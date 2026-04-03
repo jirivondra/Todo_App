@@ -1,0 +1,125 @@
+# TODO App
+
+A full-stack TODO application with a FastAPI backend and a static HTML/CSS frontend.
+
+## Stack
+
+| Layer    | Technology      |
+| -------- | --------------- |
+| API      | Python, FastAPI |
+| Frontend | HTML, Tailwind CSS |
+
+## Project structure
+
+```
+├── api/
+│   ├── main.py           # FastAPI TODO API
+│   └── requirements.txt
+└── frontend/
+    ├── login.html        # Login screen
+    ├── dashboard.html    # Main task dashboard
+    └── edit-task.html    # Edit task screen
+```
+
+## Setup
+
+### 1. Install Python dependencies
+
+```bash
+pip install -r api/requirements.txt
+# nebo pokud pip nefunguje
+pip3 install -r api/requirements.txt
+```
+
+### 2. Configure environment
+
+Vytvoř soubor `.env` v adresáři `api/`:
+
+```bash
+cp api/.env.example api/.env
+```
+
+Otevři `api/.env` a nastav přihlašovací údaje:
+
+```
+API_USERNAME=your-username
+API_PASSWORD=your-password
+```
+
+Soubor `.env` je gitignorován a nikdy se necommituje.
+
+### 3. Install Task
+
+Projekt používá [Task](https://taskfile.dev) jako task runner. Instalace:
+
+```bash
+# macOS
+brew install go-task
+
+# Windows
+winget install Task.Task
+
+# Linux
+sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+```
+
+## Running the project
+
+### 1. Spusť API
+
+```bash
+task be-up
+```
+
+API běží na `http://localhost:8000`.
+
+### 2. Spusť frontend
+
+```bash
+task fe-up
+```
+
+Frontend běží na `http://localhost:3000`. Dostupné obrazovky:
+
+```
+http://localhost:3000/login.html       ← přihlašovací obrazovka
+http://localhost:3000/dashboard.html   ← přehled úkolů
+http://localhost:3000/edit-task.html   ← editace úkolu
+```
+
+### Zastavení API
+
+```bash
+task be-down
+```
+
+## Taskfile commands
+
+| Command        | Description                     |
+| -------------- | ------------------------------- |
+| `task be-up`   | Spustí FastAPI backend          |
+| `task be-down` | Zastaví FastAPI backend         |
+| `task fe-up`   | Spustí frontend server          |
+| `task fe-down` | Zastaví frontend server         |
+| `task restart` | Restartuje API (clean + be-up)  |
+| `task clean`   | Smaže Python cache soubory      |
+
+## API dokumentace
+
+Swagger UI je dostupný na `http://localhost:8000/docs` po spuštění API. Je chráněn stejnou Basic Auth jako ostatní endpointy.
+
+## Autentizace
+
+API používá HTTP Basic Auth. Přihlašovací údaje se nastavují v `api/.env`.
+
+## API endpointy
+
+Všechny endpointy vyžadují autentizaci.
+
+| Method | Endpoint     | Description       |
+| ------ | ------------ | ----------------- |
+| GET    | `/todos`     | Seznam všech úkolů |
+| POST   | `/todos`     | Vytvoření úkolu   |
+| GET    | `/todos/:id` | Detail úkolu      |
+| PUT    | `/todos/:id` | Aktualizace úkolu |
+| DELETE | `/todos/:id` | Smazání úkolu     |

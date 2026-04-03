@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#f1cefc",
+                    "secondary-dim": "#3d5762",
+                    "on-primary-container": "#00116a",
+                    "tertiary-fixed-dim": "#e2c0ee",
+                    "on-primary-fixed-variant": "#011882",
+                    "error-dim": "#6b0221",
+                    "outline": "#7a7a84",
+                    "on-secondary-container": "#3c5561",
+                    "secondary-fixed-dim": "#bdd9e6",
+                    "on-tertiary": "#fff7fc",
+                    "primary-container": "#8696fd",
+                    "background": "#fbf8fe",
+                    "secondary-container": "#cbe7f5",
+                    "tertiary": "#71557c",
+                    "tertiary-container": "#f1cefc",
+                    "primary": "#4656b8",
+                    "on-surface": "#31323b",
+                    "on-primary-fixed": "#000000",
+                    "surface-tint": "#4656b8",
+                    "on-surface-variant": "#5e5e68",
+                    "error": "#a8364b",
+                    "primary-dim": "#3949ab",
+                    "tertiary-dim": "#64496f",
+                    "surface-variant": "#e3e1ed",
+                    "surface-bright": "#fbf8fe",
+                    "on-secondary-fixed": "#29434e",
+                    "inverse-on-surface": "#9e9ca2",
+                    "primary-fixed-dim": "#7989ee",
+                    "on-secondary": "#f2faff",
+                    "error-container": "#f97386",
+                    "on-secondary-fixed-variant": "#455f6b",
+                    "surface-container-high": "#e9e7f1",
+                    "primary-fixed": "#8696fd",
+                    "on-tertiary-container": "#5d4368",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#efedf6",
+                    "surface-container-highest": "#e3e1ed",
+                    "on-background": "#31323b",
+                    "inverse-surface": "#0d0e12",
+                    "secondary": "#49636f",
+                    "on-primary": "#faf8ff",
+                    "on-error": "#fff7f7",
+                    "on-error-container": "#6e0523",
+                    "secondary-fixed": "#cbe7f5",
+                    "on-tertiary-fixed-variant": "#674c72",
+                    "surface": "#fbf8fe",
+                    "surface-dim": "#dad9e4",
+                    "inverse-primary": "#8696fd",
+                    "surface-container-low": "#f5f2fb",
+                    "outline-variant": "#b2b1bc",
+                    "on-tertiary-fixed": "#493055"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
+<div class="absolute inset-0 pointer-events-none overflow-hidden">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-container/20 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] bg-tertiary-container/20 rounded-full blur-3xl"></div>
+</div>
+<main class="w-full max-w-md z-10">
+<div class="mb-12 text-center">
+<h1 class="font-headline text-5xl font-extrabold tracking-tight text-primary mb-2">Focus</h1>
+<p class="text-on-surface-variant font-medium tracking-wide">Cognitive Architecture for Productivity</p>
+</div>
+<div class="surface-container-lowest glass-panel rounded-xl shadow-[0_12px_40px_rgba(49,50,59,0.06)] p-10 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-dim"></div>
+<header class="mb-8">
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-2">Welcome Back</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    This application uses <span class="font-semibold text-secondary">Basic Authentication</span> to ensure your task lists remain a private digital sanctuary.
+                </p>
+</header>
+<div id="error-msg" class="hidden mb-4 px-4 py-3 bg-error-container/20 text-error text-sm font-semibold rounded-lg">
+  Nesprávné přihlašovací údaje. Zkus to znovu.
+</div>
+<form id="login-form" class="space-y-6">
+<div class="space-y-2">
+<label class="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant px-1" for="username">Username</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant">person</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container-low rounded-lg border-none ring-1 ring-outline-variant/15 focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all duration-200 outline-none text-on-surface" id="username" name="username" placeholder="Enter your unique ID" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant" for="password">Password</label>
+<a class="text-xs font-semibold text-primary hover:text-primary-dim transition-colors" href="#">Forgot Access?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant">lock</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-surface-container-low rounded-lg border-none ring-1 ring-outline-variant/15 focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all duration-200 outline-none text-on-surface" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="pt-2">
+<button class="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+<span>Sign In</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</form>
+<footer class="mt-8 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-sm text-on-surface-variant">
+                    New to Focus?
+                    <a class="text-primary font-bold hover:underline decoration-2 underline-offset-4 ml-1" href="#">Create Account</a>
+</p>
+</footer>
+</div>
+<div class="mt-8 flex justify-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant/60">
+<span class="material-symbols-outlined text-sm">shield</span>
+<span class="text-xs font-medium">Encrypted</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant/60">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<span class="text-xs font-medium">Secure Session</span>
+</div>
+</div>
+</main>
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 opacity-50">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center">
+<img alt="Feature 1" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNVThbhzKwHUgp6p15ITl703LDq2mxADAqOObDGMT5fN9k2IsUEV3LnAU8xOJrjgQ-BlCJCYf82swPMiHL4NROH6KG2UqZxdfiJnP6jhPm9ywMx6QjKFplFMRLoNge3nDZKjQ0gYzR49uK7Ksp7D0-FMH9UyMD5aX7v5j4rblSI5C7A94ZEvkY9mcdbxTrMR6iBAt4slvjR5q0g-yo_G5R_n0otUfAHSsuZIiOtU-21seM8A3qEYwURfiF4nMLu7Ge8kkCfAGQuzXY"/>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center">
+<img alt="Feature 2" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5-DzuJXPP1m5wsWpICar9BjfVB0J645hrogOvp_o1pFYZ7_cIta6BMJxleb8WE0HbkIjzPAfu-j3GOC96L_0f-e-lP1D5SIrFunv7Iv5F1szlXiyeIxPwN_5KJQg546cDh0qiORcmVqShmxK0Pj0sYEgdAzaqQ-3_PULQ6_r-lXqaPx7Q0twXDSZVZdTfAilrXdTs3l9FEvoBgvm7NlLYokPEXu-kGWZJ4Zh5QGPZ_rf8LdtKx9UqfjecOj2kein_PQcnBfdxT3Pd"/>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center">
+<img alt="Feature 3" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWlZFWtNzS5dqciIwkCEIJL1IOCoa73Y6yYw9fBeVQm_-oKtgt1UlLTDgZI2bkm88qGJ_hSdADZiibt1a93yU1xMrTj4lqUDVBPJnQkX-IVHX6UkVGeXC-q0fq0nJDNg5uqxEA0DnUhufl-GE-qjcNqW8aVdvhtCfBtVIZpiWTcB-SqSckmqc3tFcSoPQUJOIREu6z47ixuGQgI3zIB4cp6rExYU8ttTqvDAv_k8YiJrW61B0U2Yn0sOR-bb5oiwgm"/>
+</div>
+</div>
+<script>
+  const API = 'http://localhost:8000';
+
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const token = btoa(`${username}:${password}`);
+
+    const res = await fetch(`${API}/todos`, {
+      headers: { 'Authorization': `Basic ${token}` }
+    });
+
+    if (res.ok) {
+      sessionStorage.setItem('auth', token);
+      window.location.href = 'dashboard.html';
+    } else {
+      document.getElementById('error-msg').classList.remove('hidden');
+    }
+  });
+</script>
+</body></html>

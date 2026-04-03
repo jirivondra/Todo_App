@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Task - Focus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#f1cefc",
+                        "secondary-dim": "#3d5762",
+                        "on-primary-container": "#00116a",
+                        "tertiary-fixed-dim": "#e2c0ee",
+                        "on-primary-fixed-variant": "#011882",
+                        "error-dim": "#6b0221",
+                        "outline": "#7a7a84",
+                        "on-secondary-container": "#3c5561",
+                        "secondary-fixed-dim": "#bdd9e6",
+                        "on-tertiary": "#fff7fc",
+                        "primary-container": "#8696fd",
+                        "background": "#fbf8fe",
+                        "secondary-container": "#cbe7f5",
+                        "tertiary": "#71557c",
+                        "tertiary-container": "#f1cefc",
+                        "primary": "#4656b8",
+                        "on-surface": "#31323b",
+                        "on-primary-fixed": "#000000",
+                        "surface-tint": "#4656b8",
+                        "on-surface-variant": "#5e5e68",
+                        "error": "#a8364b",
+                        "primary-dim": "#3949ab",
+                        "tertiary-dim": "#64496f",
+                        "surface-variant": "#e3e1ed",
+                        "surface-bright": "#fbf8fe",
+                        "on-secondary-fixed": "#29434e",
+                        "inverse-on-surface": "#9e9ca2",
+                        "primary-fixed-dim": "#7989ee",
+                        "on-secondary": "#f2faff",
+                        "error-container": "#f97386",
+                        "on-secondary-fixed-variant": "#455f6b",
+                        "surface-container-high": "#e9e7f1",
+                        "primary-fixed": "#8696fd",
+                        "on-tertiary-container": "#5d4368",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedf6",
+                        "surface-container-highest": "#e3e1ed",
+                        "on-background": "#31323b",
+                        "inverse-surface": "#0d0e12",
+                        "secondary": "#49636f",
+                        "on-primary": "#faf8ff",
+                        "on-error": "#fff7f7",
+                        "on-error-container": "#6e0523",
+                        "secondary-fixed": "#cbe7f5",
+                        "on-tertiary-fixed-variant": "#674c72",
+                        "surface": "#fbf8fe",
+                        "surface-dim": "#dad9e4",
+                        "inverse-primary": "#8696fd",
+                        "surface-container-low": "#f5f2fb",
+                        "outline-variant": "#b2b1bc",
+                        "on-tertiary-fixed": "#493055"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Sidebar -->
+<aside class="hidden md:flex h-screen w-72 fixed left-0 top-0 border-r-0 bg-[#f5f2fb] dark:bg-slate-900 flex-col gap-2 p-6 z-50">
+<div class="mb-8 px-4">
+<h1 class="text-xl font-black text-[#4656b8] dark:text-[#8696fd]">Focused</h1>
+<p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mt-1">Personal Space</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 bg-[#efedf6] dark:bg-slate-800 text-[#4656b8] dark:text-[#8696fd] rounded-xl font-bold px-4 py-3 font-['Manrope'] text-sm" href="#">
+<span class="material-symbols-outlined">check_circle</span>
+                Tasks
+            </a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                Calendar
+            </a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Archive
+            </a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+                New Task
+            </button>
+</div>
+</aside>
+<div class="md:pl-72 flex flex-col min-h-screen">
+<!-- Top Nav Bar -->
+<header class="bg-[#fbf8fe]/80 dark:bg-slate-950/80 backdrop-blur-xl top-0 sticky z-40 h-20">
+<div class="flex justify-between items-center w-full px-8 h-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#4656b8] md:hidden">menu</span>
+<h2 class="text-2xl font-extrabold text-[#4656b8] dark:text-[#8696fd] font-['Manrope'] tracking-tight">Focus</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/15">
+<span class="material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface-variant w-48" placeholder="Search activities..." type="text"/>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<button class="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined hover:text-primary transition-colors">settings</button>
+<div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeaJBi_vks39J2z_CtMsB1SUN2dZ8vRkIG0wWbdmLpB3X_GlNg3VzfI3Gl2Bic2dMMeEhl5wiRrW9Puf7iYIZ7gxCvrhaJjW2Kba0PXD9b6rpjeud97y7u_MqasETWP_p5Ho9EJOdLzQPpJic5Qip_KyvX5CwetjP4Bt__EFgXU9pruQCAYbW3Z9vFdsE7Yeu1usRahsxy-1EjLUfwSDP75wHaUlkZt1bHwEEwKPOvZMLA9BDcpWy9bkiUKjy1w6Nhc9Nc298GUiwW"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-8 md:p-12 max-w-5xl mx-auto w-full">
+<div class="mb-10">
+<nav class="flex items-center gap-2 text-sm font-medium text-on-surface-variant mb-4">
+<a class="hover:text-primary transition-colors" href="#">Tasks</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface">Edit Task</span>
+</nav>
+<h1 class="text-4xl md:text-5xl font-black text-on-surface tracking-tight font-headline">Refine Objective</h1>
+<p class="text-on-surface-variant mt-2 text-lg">Modify the details of your focus session.</p>
+</div>
+<!-- Task Form Card -->
+<div class="bg-surface-container-lowest rounded-[2rem] p-8 md:p-12 shadow-sm border border-outline-variant/5">
+<form class="space-y-10">
+<div class="space-y-3">
+<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-title">Task Title</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-xl font-semibold text-on-surface focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-title" placeholder="What needs to be done?" type="text" value="Quarterly Architecture Review"/>
+</div>
+<div class="space-y-3">
+<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-desc">Description &amp; Scope</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-base text-on-surface-variant leading-relaxed focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-desc" placeholder="Describe the desired outcome and any constraints..." rows="6">Perform a comprehensive audit of the current cloud infrastructure. Focus on microservices latency and the potential integration of the new caching layer. Ensure all security protocols are met for the upcoming compliance check.</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+<div class="flex items-center justify-between p-6 bg-surface-container rounded-2xl">
+<div class="flex flex-col">
+<span class="font-headline font-bold text-on-surface">Task Completed</span>
+<span class="text-xs text-on-surface-variant">Mark this objective as achieved</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center gap-4 p-6 bg-tertiary-container/30 rounded-2xl">
+<div class="bg-tertiary text-on-tertiary h-12 w-12 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">event</span>
+</div>
+<div>
+<span class="block text-xs font-bold text-tertiary-dim uppercase tracking-wider">Due Date</span>
+<span class="block font-headline font-bold text-on-surface">October 24, 2023</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-outline-variant/10">
+<button class="w-full sm:w-auto px-10 py-4 text-on-surface-variant font-bold text-sm hover:text-primary transition-colors" type="button">
+                            Cancel
+                        </button>
+<button class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold text-sm shadow-xl shadow-primary/20 active:scale-95 transition-transform" type="submit">
+                            Save Changes
+                        </button>
+</div>
+</form>
+</div>
+<!-- Contextual Metadata -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-surface-container-low p-8 rounded-[2rem] flex flex-col justify-between">
+<div>
+<span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest mb-4">Project Context</span>
+<h3 class="text-2xl font-bold font-headline text-on-surface">System Scalability 2024</h3>
+<p class="text-on-surface-variant mt-2">This task is part of the core infrastructure milestone. Completion affects 4 downstream dependencies.</p>
+</div>
+<div class="flex -space-x-2 mt-6">
+<img alt="Team member" class="h-8 w-8 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfzEMCPEyvXU8xOphPFCng44HaMfckdlBX6XWHv1sGQSP80wRVfblBiJsfdk0RQDGfODFGjq7etJNaTie4Xnh3lyv0dGzVyKpSEp7rZZdJWednLu0mR8enDAOTHNIk6NRFZYBe0Qcna0O2Gjs2O1Xr4c8GtBtx-29j7Y2twWBqqj2LhZDYvQW66kDULxok_OrjhrpQciu4zg5QNRPkJv8AEQwtEQ2z3bAU701TLKxKEEMo8OKLG40uq_1_F9BxZH_ZzgTroO3zj3Q-"/>
+<img alt="Team member" class="h-8 w-8 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiUU_VgyZcJ6CfoSKr-Mmh1g-8GXZNR0y_bqwpECIY3qAIJv4o1-ElzYE3jyr74_gCM0yd93VweNItVmHCruRDvAReJhuNE3BSu60G6HKbVWuXnjUWo4ANgGs4GZQGqsMJBksEgWzXgXIgxWSH50YqKEyml_20r3ih-ONL4VlRhbEtgx7TKwNm33w8EFjQPCGKqoMnsQwiQj2LySe96l49eXMSCv1X0Ne7xioBqS73FLmBC-wku0Mv76kiqGZUwVb2qwXpeVUEY-vM"/>
+<div class="h-8 w-8 rounded-full border-2 border-surface bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+3</div>
+</div>
+</div>
+<div class="bg-surface-variant p-8 rounded-[2rem] relative overflow-hidden group">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">history</span>
+<h4 class="font-headline font-bold text-on-surface">Last Edit</h4>
+<p class="text-on-surface-variant text-sm mt-1">2 hours ago by Alex Rivers</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-9xl">edit_note</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#fbf8fe] border-t border-outline-variant/10 flex justify-around items-center h-20 px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#4656b8]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Tasks</span>
+</a>
+<button class="bg-primary text-white h-12 w-12 rounded-full flex items-center justify-center shadow-lg -mt-10 border-4 border-background">
+<span class="material-symbols-outlined">add</span>
+</button>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Plan</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Config</span>
+</a>
+</nav>
+<script>
+  const API = 'http://localhost:8000';
+  const auth = sessionStorage.getItem('auth');
+  if (!auth) window.location.href = 'login.html';
+
+  const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
+  const params = new URLSearchParams(window.location.search);
+  const todoId = params.get('id');
+
+  // Nastav titulek stránky podle režimu
+  if (!todoId) {
+    document.querySelector('h1').textContent = 'New Objective';
+    document.querySelector('h1 + p').textContent = 'Define your next focus task.';
+    document.querySelector('nav span.text-on-surface').textContent = 'New Task';
+    document.querySelector('button[type=submit]').textContent = 'Create Task';
+  }
+
+  // Načti existující task při editaci
+  if (todoId) {
+    fetch(`${API}/todos/${todoId}`, { headers })
+      .then(r => r.json())
+      .then(todo => {
+        document.getElementById('task-title').value = todo.title;
+        document.getElementById('task-desc').value = todo.description || '';
+        document.querySelector('input[type=checkbox]').checked = todo.completed;
+      });
+  }
+
+  // Uložení
+  document.querySelector('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = {
+      title: document.getElementById('task-title').value,
+      description: document.getElementById('task-desc').value,
+      completed: document.querySelector('input[type=checkbox]').checked
+    };
+
+    if (todoId) {
+      await fetch(`${API}/todos/${todoId}`, { method: 'PUT', headers, body: JSON.stringify(body) });
+    } else {
+      await fetch(`${API}/todos`, { method: 'POST', headers, body: JSON.stringify(body) });
+    }
+    window.location.href = 'dashboard.html';
+  });
+
+  // Cancel
+  document.querySelector('button[type=button]').addEventListener('click', () => {
+    window.location.href = 'dashboard.html';
+  });
+</script>
+</body></html>

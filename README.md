@@ -4,9 +4,9 @@ A full-stack TODO application with a FastAPI backend and a static HTML/CSS front
 
 ## Stack
 
-| Layer    | Technology      |
-| -------- | --------------- |
-| API      | Python, FastAPI |
+| Layer    | Technology         |
+| -------- | ------------------ |
+| API      | Python, FastAPI    |
 | Frontend | HTML, Tailwind CSS |
 
 ## Project structure
@@ -95,14 +95,14 @@ task be-down
 
 ## Taskfile commands
 
-| Command        | Description                     |
-| -------------- | ------------------------------- |
-| `task be-up`   | Spustí FastAPI backend          |
-| `task be-down` | Zastaví FastAPI backend         |
-| `task fe-up`   | Spustí frontend server          |
-| `task fe-down` | Zastaví frontend server         |
-| `task restart` | Restartuje API (clean + be-up)  |
-| `task clean`   | Smaže Python cache soubory      |
+| Command        | Description                    |
+| -------------- | ------------------------------ |
+| `task be-up`   | Spustí FastAPI backend         |
+| `task be-down` | Zastaví FastAPI backend        |
+| `task fe-up`   | Spustí frontend server         |
+| `task fe-down` | Zastaví frontend server        |
+| `task restart` | Restartuje API (clean + be-up) |
+| `task clean`   | Smaže Python cache soubory     |
 
 ## API dokumentace
 
@@ -116,10 +116,10 @@ API používá HTTP Basic Auth. Přihlašovací údaje se nastavují v `api/.env
 
 Všechny endpointy vyžadují autentizaci.
 
-| Method | Endpoint     | Description       |
-| ------ | ------------ | ----------------- |
+| Method | Endpoint     | Description        |
+| ------ | ------------ | ------------------ |
 | GET    | `/todos`     | Seznam všech úkolů |
-| POST   | `/todos`     | Vytvoření úkolu   |
-| GET    | `/todos/:id` | Detail úkolu      |
-| PUT    | `/todos/:id` | Aktualizace úkolu |
-| DELETE | `/todos/:id` | Smazání úkolu     |
+| POST   | `/todos`     | Vytvoření úkolu    |
+| GET    | `/todos/:id` | Detail úkolu       |
+| PUT    | `/todos/:id` | Aktualizace úkolu  |
+| DELETE | `/todos/:id` | Smazání úkolu      |

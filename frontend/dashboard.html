@@ -336,7 +336,7 @@
 <script>
   const API = 'http://localhost:8000';
   const auth = sessionStorage.getItem('auth');
-  if (!auth) { window.location.href = 'login.html'; }
+  if (!auth) { window.location.href = 'login.html'; } else {
 
   const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
 
@@ -418,11 +418,11 @@
 
     // Aktualizuj pulse statistiku
     const total = todos.length;
-    const done = todos.filter(t => t.completed).length;
-    const pct = total ? Math.round((done / total) * 100) : 0;
+    const doneCount = todos.filter(t => t.completed).length;
+    const pct = total ? Math.round((doneCount / total) * 100) : 0;
     document.getElementById('pulse-pct').textContent = `${pct}%`;
     document.getElementById('pulse-bar').style.width = `${pct}%`;
-    document.getElementById('pulse-count').textContent = `${done}/${total} TASKS COMPLETED`;
+    document.getElementById('pulse-count').textContent = `${doneCount}/${total} TASKS COMPLETED`;
   }
 
   // New Task tlačítko v sidebaru
@@ -498,5 +498,7 @@
       btn.classList.add('opacity-0', 'pointer-events-none');
     }
   });
+
+  } // end else (auth guard)
 </script>
 </body></html>

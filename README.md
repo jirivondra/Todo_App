@@ -82,9 +82,9 @@ task fe-up
 Frontend běží na `http://localhost:3000`. Dostupné obrazovky:
 
 ```
-http://localhost:3000/login.html       ← přihlašovací obrazovka
-http://localhost:3000/dashboard.html   ← přehled úkolů
-http://localhost:3000/edit-task.html   ← editace úkolu
+http://localhost:3000/login.html       ← login screen
+http://localhost:3000/dashboard.html   ← task dashboard
+http://localhost:3000/edit-task.html   ← edit task
 ```
 
 ### Zastavení API

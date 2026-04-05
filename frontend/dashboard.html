@@ -254,14 +254,25 @@
 <!-- Bento Layout Dashboard -->
 <div class="editorial-grid">
 <!-- Main Tasks Column (8/12) -->
-<div class="col-span-8 flex flex-col gap-8">
+<div class="col-span-8 flex flex-col gap-10">
+<!-- Open Tasks -->
 <section>
 <div class="flex items-center gap-2 mb-6">
 <span class="w-1 h-6 bg-primary-dim rounded-full"></span>
-<h3 class="font-headline font-bold uppercase tracking-widest text-on-surface/50 text-sm">Tasks</h3>
+<h3 class="font-headline font-bold uppercase tracking-widest text-on-surface/50 text-sm">Open Tasks</h3>
 </div>
-<div id="todo-list" class="flex flex-col gap-4">
+<div id="open-list" class="flex flex-col gap-4">
 <p class="text-on-surface-variant text-sm">Loading tasks...</p>
+</div>
+</section>
+<!-- Finished Tasks -->
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="w-1 h-6 bg-outline-variant rounded-full"></span>
+<h3 class="font-headline font-bold uppercase tracking-widest text-on-surface/50 text-sm">Finished Tasks</h3>
+</div>
+<div id="done-list" class="flex flex-col gap-4">
+<p class="text-on-surface-variant text-sm italic opacity-50">No finished tasks yet.</p>
 </div>
 </section>
 </div>
@@ -378,12 +389,25 @@
     const res = await fetch(`${API}/todos`, { headers });
     if (res.status === 401) { window.location.href = 'login.html'; return; }
     const todos = await res.json();
-    const list = document.getElementById('todo-list');
-    list.innerHTML = '';
-    if (todos.length === 0) {
-      list.innerHTML = '<p class="text-on-surface-variant text-sm">Žádné úkoly. Přidej první kliknutím na +</p>';
+
+    const openList = document.getElementById('open-list');
+    const doneList = document.getElementById('done-list');
+    openList.innerHTML = '';
+    doneList.innerHTML = '';
+
+    const open = todos.filter(t => !t.completed);
+    const done = todos.filter(t => t.completed);
+
+    if (open.length === 0) {
+      openList.innerHTML = '<p class="text-on-surface-variant text-sm italic opacity-50">No open tasks. Create one with + New Task.</p>';
     } else {
-      todos.forEach(todo => list.appendChild(renderTodo(todo)));
+      open.forEach(todo => openList.appendChild(renderTodo(todo)));
+    }
+
+    if (done.length === 0) {
+      doneList.innerHTML = '<p class="text-on-surface-variant text-sm italic opacity-50">No finished tasks yet.</p>';
+    } else {
+      done.forEach(todo => doneList.appendChild(renderTodo(todo)));
     }
 
     // Aktualizuj pulse statistiku

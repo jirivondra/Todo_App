@@ -188,7 +188,7 @@
 </button>
 </div>
 <!-- New Task Button -->
-<button class="new-task-btn bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 px-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95 mb-2">
+<button id="new-task-btn" class="new-task-btn bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 px-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95 mb-2">
 <span class="material-symbols-outlined text-sm flex-shrink-0">add</span>
 <span class="sidebar-label">New Task</span>
 </button>
@@ -336,7 +336,7 @@
 <script>
   const API = 'http://localhost:8000';
   const auth = sessionStorage.getItem('auth');
-  if (!auth) { window.location.href = 'login.html'; throw new Error('unauthenticated'); }
+  if (!auth) { window.location.href = 'login.html'; }
 
   const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
 
@@ -426,7 +426,7 @@
   }
 
   // New Task tlačítko v sidebaru
-  document.querySelector('.new-task-btn').addEventListener('click', () => {
+  document.getElementById('new-task-btn').addEventListener('click', () => {
     window.location.href = 'edit-task.html';
   });
 

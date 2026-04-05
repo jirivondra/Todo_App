@@ -96,7 +96,7 @@
             grid-template-columns: repeat(12, 1fr);
             gap: 2rem;
         }
-        #sidebar { width: 18rem; transition: width 0.3s ease; overflow: hidden; }
+        #sidebar { width: 18rem; transition: width 0.3s ease; overflow: visible; }
         html.sidebar-collapsed #sidebar { width: 4rem; }
         html.sidebar-collapsed .sidebar-label { display: none !important; }
         html.sidebar-collapsed #sidebar nav a { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
@@ -107,40 +107,60 @@
         html.sidebar-collapsed #toggle-icon { transform: scaleX(-1); }
         .ml-sidebar { margin-left: 18rem; transition: margin-left 0.3s ease; }
         html.sidebar-collapsed .ml-sidebar { margin-left: 4rem; }
+        /* Tooltips — sidebar (right) */
         [data-tip] { position: relative; }
-        [data-tip]::after {
+        #sidebar [data-tip]::after {
             content: attr(data-tip);
             position: absolute;
-            bottom: calc(100% + 8px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: #31323b;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 11px;
-            font-weight: 500;
-            white-space: nowrap;
-            padding: 5px 10px;
-            border-radius: 6px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s ease;
-            z-index: 100;
+            top: 50%; left: calc(100% + 10px);
+            transform: translateY(-50%);
+            background: #31323b; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+            white-space: nowrap; padding: 5px 10px; border-radius: 6px;
+            pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 9999;
         }
-        [data-tip]::before {
+        #sidebar [data-tip]::before {
             content: '';
             position: absolute;
-            bottom: calc(100% + 3px);
-            left: 50%;
+            top: 50%; left: calc(100% + 5px);
+            transform: translateY(-50%);
+            border: 5px solid transparent; border-right-color: #31323b;
+            pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 9999;
+        }
+        /* Tooltips — header (above) */
+        header [data-tip]::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: calc(100% + 8px); left: 50%;
             transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: #31323b;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s ease;
-            z-index: 100;
+            background: #31323b; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+            white-space: nowrap; padding: 5px 10px; border-radius: 6px;
+            pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 9999;
+        }
+        header [data-tip]::before {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 3px); left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent; border-top-color: #31323b;
+            pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 9999;
         }
         [data-tip]:hover::after, [data-tip]:hover::before { opacity: 1; }
+        /* Expandable search */
+        .search-wrap { position: relative; display: flex; align-items: center; }
+        .search-input {
+            width: 0; opacity: 0; padding: 0;
+            background: transparent; border: none; outline: none;
+            font-size: 0.875rem; color: #31323b;
+            transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+            pointer-events: none;
+        }
+        .search-wrap.open .search-input {
+            width: 180px; opacity: 1; padding: 0 0.5rem;
+            pointer-events: all;
+        }
+        .search-wrap.open { background: #f5f2fb; border-radius: 9999px; padding: 0.4rem 0.75rem; }
         .mech-clock { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #4656b8; background: #fff; position: relative; box-shadow: 0 4px 12px rgba(70,86,184,0.12), inset 0 1px 3px rgba(0,0,0,0.04); flex-shrink: 0; }
         .mech-clock::after { content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: #4656b8; border-radius: 50%; transform: translate(-50%,-50%); z-index: 10; }
         .mech-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 3px; }
@@ -214,9 +234,9 @@
 <div class="mech-hand mech-second" id="hand-second"></div>
 </div>
 </div>
-<div class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/15">
-<span class="material-symbols-outlined text-outline text-sm">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface-variant w-48" placeholder="Search activities..." type="text"/>
+<div class="search-wrap hidden sm:flex" id="search-wrap">
+<button id="search-btn" class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors" data-tip="Search">search</button>
+<input id="search-input" class="search-input" placeholder="Search..." type="text"/>
 </div>
 <div class="flex items-center gap-4 text-slate-500">
 <button class="material-symbols-outlined hover:text-primary transition-colors" data-tip="Notifications">notifications</button>
@@ -396,6 +416,29 @@
   })();
 
   loadTodos();
+
+  // Expandable search
+  (function() {
+    const wrap = document.getElementById('search-wrap');
+    const btn = document.getElementById('search-btn');
+    const input = document.getElementById('search-input');
+    btn.addEventListener('click', () => {
+      wrap.classList.toggle('open');
+      if (wrap.classList.contains('open')) {
+        input.focus();
+        btn.removeAttribute('data-tip');
+      } else {
+        input.value = '';
+        btn.setAttribute('data-tip', 'Search');
+      }
+    });
+    input.addEventListener('blur', () => {
+      if (!input.value) {
+        wrap.classList.remove('open');
+        btn.setAttribute('data-tip', 'Search');
+      }
+    });
+  })();
 
   // App version
   fetch('assets/version.json').then(r => r.json()).then(d => {

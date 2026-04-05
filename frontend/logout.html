@@ -143,7 +143,19 @@
 <img alt="" class="w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcWGsMpJKweV33Wv_j7NpPDSvdahcv-Hms2XM3yHMuOTvxTBkHXREAIQHo36LbRMqRccM6mQ2-wLqtW91Es1EMaxZ-LZNTnnB6ZD1VU-EED7v27XRDDHwB9CkYtqaTdFMbKNkPr3SCIxWwzPyuA4NbM2xTN_g9k5t5oJu0X2C9Xgce0OjcMuS8tu-YMeYNHWNku_tBrDnWQmbu9Wtg8rVQdSym6jcATGggFFXK8u7jVaseHp_mUPkJZg_cXfTbRqoZc8yNkLwhJX8E"/>
 </div>
 
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-10 right-10 w-14 h-14 bg-surface-container-highest text-on-surface rounded-full shadow-[0_12px_40px_rgba(49,50,59,0.1)] flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-on-primary opacity-0 pointer-events-none z-50">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
 <script>
   sessionStorage.removeItem('auth');
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top');
+    if (window.scrollY > 100) {
+      btn.classList.remove('opacity-0', 'pointer-events-none');
+    } else {
+      btn.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
 </script>
 </body></html>

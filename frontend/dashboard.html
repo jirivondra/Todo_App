@@ -227,22 +227,28 @@
 <div class="flex items-center gap-4">
 <h2 class="text-2xl font-extrabold text-[#4656b8] font-['Manrope'] tracking-tight">Chronos</h2>
 </div>
-<div class="flex items-center gap-4 text-slate-500">
+<div class="flex items-center gap-4">
 <div class="mech-clock hidden sm:block">
 <div class="mech-hand mech-hour" id="hand-hour"></div>
 <div class="mech-hand mech-minute" id="hand-minute"></div>
 <div class="mech-hand mech-second" id="hand-second"></div>
 </div>
 <div class="search-wrap hidden sm:flex" id="search-wrap">
-<button id="search-btn" class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors" data-tip="Search">search</button>
+<button id="search-btn" class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors" data-tip="Search">
+<span class="material-symbols-outlined text-[22px]">search</span>
+</button>
 <input id="search-input" class="search-input" placeholder="Search..." type="text"/>
 </div>
-<button class="material-symbols-outlined hover:text-primary transition-colors" data-tip="Notifications">notifications</button>
-<button class="material-symbols-outlined hover:text-primary transition-colors" data-tip="Settings">settings</button>
-<a href="logout.html" class="p-2 text-on-surface-variant hover:text-error transition-colors" data-tip="Log out">
+<button class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors" data-tip="Notifications">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+<button class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors" data-tip="Settings">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+</button>
+<a href="logout.html" class="flex items-center justify-center text-slate-500 hover:text-error transition-colors" data-tip="Log out">
 <span class="material-symbols-outlined text-[22px]">logout</span>
 </a>
-<div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20" data-tip="Jiří Vondra">
+<div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20 flex-shrink-0" data-tip="Jiří Vondra">
 <img alt="Jiří Vondra" class="w-full h-full object-cover" src="assets/avatars/admin.png"/>
 </div>
 </div>

@@ -121,7 +121,7 @@
         header [data-tip]::after {
             content: attr(data-tip);
             position: absolute;
-            bottom: calc(100% + 8px); left: 50%;
+            top: calc(100% + 8px); left: 50%;
             transform: translateX(-50%);
             background: #31323b; color: #fff;
             font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
@@ -131,9 +131,9 @@
         header [data-tip]::before {
             content: '';
             position: absolute;
-            bottom: calc(100% + 3px); left: 50%;
+            top: calc(100% + 3px); left: 50%;
             transform: translateX(-50%);
-            border: 5px solid transparent; border-top-color: #31323b;
+            border: 5px solid transparent; border-bottom-color: #31323b;
             pointer-events: none; opacity: 0; transition: opacity 0.15s ease; z-index: 9999;
         }
         [data-tip]:hover::after, [data-tip]:hover::before { opacity: 1; }

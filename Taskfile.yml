@@ -19,10 +19,20 @@ tasks:
     desc: Run tests with verbose output
     cmd: npm run test-verbose
 
+  # --- Version ---
+  version-gen:
+    desc: Generate version.json from latest git tag (or commit hash)
+    cmd: |
+      VERSION=$(git describe --tags --always 2>/dev/null || git rev-parse --short HEAD)
+      echo "{\"version\": \"$VERSION\"}" > frontend/assets/version.json
+      echo "Version set to $VERSION"
+
   # --- Frontend ---
   fe-up:
-    desc: Serve the frontend on http://localhost:3000
-    cmd: python3 -m http.server 3000 --directory frontend
+    desc: Serve the frontend on http://localhost:3000 and open in Chrome
+    cmds:
+      - open -a "Google Chrome" http://localhost:3000/login.html &
+      - python3 -m http.server 3000 --directory frontend
 
   fe-down:
     desc: Stop the frontend server

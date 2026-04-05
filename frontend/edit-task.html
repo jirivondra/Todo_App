@@ -3,7 +3,9 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Edit Task - Focus</title>
+<title>Edit Task - Chronos</title>
+<link rel="icon" type="image/png" href="assets/image.png"/>
+<script>if(localStorage.getItem('sidebarCollapsed')==='true')document.documentElement.classList.add('sidebar-collapsed');</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -86,59 +88,99 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        #sidebar { width: 18rem; transition: width 0.3s ease; overflow: hidden; }
+        html.sidebar-collapsed #sidebar { width: 4rem; }
+        html.sidebar-collapsed .sidebar-label { display: none !important; }
+        html.sidebar-collapsed #sidebar nav a { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+        html.sidebar-collapsed .sidebar-user { display: none; }
+        html.sidebar-collapsed #sidebar .new-task-btn { padding-left: 0.5rem; padding-right: 0.5rem; justify-content: center; }
+        html.sidebar-collapsed #sidebar .sidebar-logo-link { display: none; }
+        html.sidebar-collapsed #sidebar .sidebar-header { justify-content: center; }
+        html.sidebar-collapsed #toggle-icon { transform: scaleX(-1); }
+        .ml-sidebar { margin-left: 18rem; transition: margin-left 0.3s ease; }
+        html.sidebar-collapsed .ml-sidebar { margin-left: 4rem; }
+        .mech-clock { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #4656b8; background: #fff; position: relative; box-shadow: 0 4px 12px rgba(70,86,184,0.12), inset 0 1px 3px rgba(0,0,0,0.04); flex-shrink: 0; }
+        .mech-clock::after { content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: #4656b8; border-radius: 50%; transform: translate(-50%,-50%); z-index: 10; }
+        .mech-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 3px; }
+        .mech-hour { width: 3px; height: 9px; background: #31323b; margin-left: -1.5px; z-index: 3; }
+        .mech-minute { width: 2px; height: 14px; background: #5e5e68; margin-left: -1px; z-index: 2; }
+        .mech-second { width: 1.5px; height: 16px; background: #4656b8; margin-left: -0.75px; z-index: 4; }
     </style>
 </head>
 <body class="bg-background text-on-background min-h-screen">
 <!-- Sidebar -->
-<aside class="hidden md:flex h-screen w-72 fixed left-0 top-0 border-r-0 bg-[#f5f2fb] dark:bg-slate-900 flex-col gap-2 p-6 z-50">
-<div class="mb-8 px-4">
-<h1 class="text-xl font-black text-[#4656b8] dark:text-[#8696fd]">Focused</h1>
-<p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mt-1">Personal Space</p>
+<aside id="sidebar" class="h-screen fixed left-0 top-0 bg-[#f5f2fb] dark:bg-slate-900 z-50">
+<div class="flex flex-col gap-2 p-4 h-full">
+<div class="sidebar-header mb-8 flex items-center justify-between px-2">
+<a href="dashboard.html" class="sidebar-logo-link flex items-center gap-3 min-w-0">
+<img src="assets/image.png" alt="Chronos" class="h-8 w-auto flex-shrink-0"/>
+<div class="sidebar-label min-w-0">
+<h1 class="text-xl font-black text-[#4656b8] dark:text-[#8696fd] font-headline truncate">Chronos</h1>
+<p class="font-['Manrope'] text-sm font-semibold text-slate-500 truncate">Personal Space</p>
 </div>
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 bg-[#efedf6] dark:bg-slate-800 text-[#4656b8] dark:text-[#8696fd] rounded-xl font-bold px-4 py-3 font-['Manrope'] text-sm" href="#">
-<span class="material-symbols-outlined">check_circle</span>
-                Tasks
-            </a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
-<span class="material-symbols-outlined">calendar_today</span>
-                Calendar
-            </a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-[#e9e7f1] transition-colors duration-200 font-['Manrope'] text-sm font-semibold" href="#">
-<span class="material-symbols-outlined">inventory_2</span>
-                Archive
-            </a>
+</a>
+<button id="sidebar-toggle" class="p-2 rounded-xl hover:bg-[#e9e7f1] transition-colors text-slate-500 flex-shrink-0 ml-1" title="Toggle sidebar">
+<span class="material-symbols-outlined" id="toggle-icon">menu_open</span>
+</button>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="text-slate-500 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#e9e7f1] dark:hover:bg-slate-700 transition-colors duration-200 rounded-xl" href="dashboard.html">
+<span class="material-symbols-outlined flex-shrink-0">dashboard</span>
+<span class="sidebar-label font-headline text-sm font-semibold">Dashboard</span>
+</a>
+<a class="bg-[#efedf6] dark:bg-slate-800 text-[#4656b8] dark:text-[#8696fd] rounded-xl font-bold px-4 py-3 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined flex-shrink-0">check_circle</span>
+<span class="sidebar-label font-headline text-sm font-semibold">Tasks</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#e9e7f1] dark:hover:bg-slate-700 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined flex-shrink-0">calendar_today</span>
+<span class="sidebar-label font-headline text-sm font-semibold">Calendar</span>
+</a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#e9e7f1] dark:hover:bg-slate-700 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined flex-shrink-0">inventory_2</span>
+<span class="sidebar-label font-headline text-sm font-semibold">Archive</span>
+</a>
 </nav>
-<div class="mt-auto">
-<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
-<span class="material-symbols-outlined">add</span>
-                New Task
-            </button>
+<div class="mt-auto flex flex-col gap-4">
+<button class="new-task-btn bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 px-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-sm flex-shrink-0">add</span>
+<span class="sidebar-label">New Task</span>
+</button>
+<div class="sidebar-label h-px bg-outline-variant/15 mx-2"></div>
+<div class="sidebar-user flex items-center gap-3 px-4 py-3">
+<img class="w-9 h-9 rounded-full object-cover flex-shrink-0" src="assets/avatars/admin.png" alt="Jiří Vondra"/>
+<div class="sidebar-label">
+<p class="text-xs font-bold text-on-surface">Jiří Vondra</p>
+<p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">Admin</p>
+</div>
+</div>
+<div class="sidebar-label px-4 pb-3 flex flex-col items-center gap-0.5">
+<p class="text-[10px] font-extrabold uppercase tracking-widest text-on-surface/70">App version</p>
+<p id="app-version" class="text-[10px] text-on-surface-variant/40 font-mono">v—</p>
+</div>
+</div>
 </div>
 </aside>
-<div class="md:pl-72 flex flex-col min-h-screen">
+<div class="ml-sidebar flex flex-col min-h-screen">
 <!-- Top Nav Bar -->
-<header class="bg-[#fbf8fe]/80 dark:bg-slate-950/80 backdrop-blur-xl top-0 sticky z-40 h-20">
+<header class="bg-[#fbf8fe]/80 backdrop-blur-xl top-0 sticky z-40 h-20">
 <div class="flex justify-between items-center w-full px-8 h-full max-w-screen-2xl mx-auto">
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-[#4656b8] md:hidden">menu</span>
-<h2 class="text-2xl font-extrabold text-[#4656b8] dark:text-[#8696fd] font-['Manrope'] tracking-tight">Focus</h2>
-</div>
+<h2 class="text-2xl font-extrabold text-[#4656b8] font-['Manrope'] tracking-tight">Chronos</h2>
 <div class="flex items-center gap-6">
-<div class="hidden sm:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/15">
-<span class="material-symbols-outlined text-outline text-sm">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface-variant w-48" placeholder="Search activities..." type="text"/>
+<div class="hidden sm:flex items-center mr-2">
+<div class="mech-clock">
+<div class="mech-hand mech-hour" id="hand-hour"></div>
+<div class="mech-hand mech-minute" id="hand-minute"></div>
+<div class="mech-hand mech-second" id="hand-second"></div>
+</div>
 </div>
 <div class="flex items-center gap-4 text-slate-500">
-<button class="material-symbols-outlined hover:text-primary transition-colors">notifications</button>
-<button class="material-symbols-outlined hover:text-primary transition-colors">settings</button>
 <div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20">
-<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeaJBi_vks39J2z_CtMsB1SUN2dZ8vRkIG0wWbdmLpB3X_GlNg3VzfI3Gl2Bic2dMMeEhl5wiRrW9Puf7iYIZ7gxCvrhaJjW2Kba0PXD9b6rpjeud97y7u_MqasETWP_p5Ho9EJOdLzQPpJic5Qip_KyvX5CwetjP4Bt__EFgXU9pruQCAYbW3Z9vFdsE7Yeu1usRahsxy-1EjLUfwSDP75wHaUlkZt1bHwEEwKPOvZMLA9BDcpWy9bkiUKjy1w6Nhc9Nc298GUiwW"/>
+<img alt="Jiří Vondra" class="w-full h-full object-cover" src="assets/avatars/admin.png"/>
 </div>
+<a href="logout.html" class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Logout">
+<span class="material-symbols-outlined text-[22px]">logout</span>
+</a>
 </div>
 </div>
 </div>
@@ -149,21 +191,21 @@
 <nav class="flex items-center gap-2 text-sm font-medium text-on-surface-variant mb-4">
 <a class="hover:text-primary transition-colors" href="#">Tasks</a>
 <span class="material-symbols-outlined text-xs">chevron_right</span>
-<span class="text-on-surface">Edit Task</span>
+<span id="breadcrumb-label" class="text-on-surface">Edit Task</span>
 </nav>
-<h1 class="text-4xl md:text-5xl font-black text-on-surface tracking-tight font-headline">Refine Objective</h1>
-<p class="text-on-surface-variant mt-2 text-lg">Modify the details of your focus session.</p>
+<h1 id="page-title" class="text-4xl md:text-5xl font-black text-on-surface tracking-tight font-headline">Edit Task</h1>
+<p id="page-subtitle" class="text-on-surface-variant mt-2 text-lg">Modify the details of your focus session.</p>
 </div>
 <!-- Task Form Card -->
 <div class="bg-surface-container-lowest rounded-[2rem] p-8 md:p-12 shadow-sm border border-outline-variant/5">
 <form class="space-y-10">
 <div class="space-y-3">
-<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-title">Task Title</label>
-<input class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-xl font-semibold text-on-surface focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-title" placeholder="What needs to be done?" type="text" value="Quarterly Architecture Review"/>
+<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-title">Task Title <span class="text-error">*</span></label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-xl font-semibold text-on-surface focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-title" placeholder="Enter task title..." type="text" required/>
 </div>
 <div class="space-y-3">
-<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-desc">Description &amp; Scope</label>
-<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-base text-on-surface-variant leading-relaxed focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-desc" placeholder="Describe the desired outcome and any constraints..." rows="6">Perform a comprehensive audit of the current cloud infrastructure. Focus on microservices latency and the potential integration of the new caching layer. Ensure all security protocols are met for the upcoming compliance check.</textarea>
+<label class="text-xs font-bold uppercase tracking-widest text-primary ml-1" for="task-desc">Description <span class="text-error">*</span></label>
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-base text-on-surface-variant leading-relaxed focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant" id="task-desc" placeholder="Enter task description..." rows="6" required></textarea>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
 <div class="flex items-center justify-between p-6 bg-surface-container rounded-2xl">
@@ -190,7 +232,7 @@
 <button class="w-full sm:w-auto px-10 py-4 text-on-surface-variant font-bold text-sm hover:text-primary transition-colors" type="button">
                             Cancel
                         </button>
-<button class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold text-sm shadow-xl shadow-primary/20 active:scale-95 transition-transform" type="submit">
+<button id="save-btn" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold text-sm shadow-xl shadow-primary/20 active:scale-95 transition-transform disabled:opacity-40 disabled:pointer-events-none" type="submit" disabled>
                             Save Changes
                         </button>
 </div>
@@ -223,6 +265,9 @@
 </div>
 </main>
 </div>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-10 right-10 w-14 h-14 bg-surface-container-highest text-on-surface rounded-full shadow-[0_12px_40px_rgba(49,50,59,0.1)] flex items-center justify-center transition-all duration-300 hover:bg-primary hover:text-on-primary opacity-0 pointer-events-none z-50">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
 <!-- Mobile Navigation -->
 <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#fbf8fe] border-t border-outline-variant/10 flex justify-around items-center h-20 px-4 z-50">
 <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
@@ -250,16 +295,25 @@
   const auth = sessionStorage.getItem('auth');
   if (!auth) window.location.href = 'login.html';
 
+  function checkForm() {
+    const title = document.getElementById('task-title').value.trim();
+    const desc = document.getElementById('task-desc').value.trim();
+    document.getElementById('save-btn').disabled = !(title && desc);
+  }
+
+  document.getElementById('task-title').addEventListener('input', checkForm);
+  document.getElementById('task-desc').addEventListener('input', checkForm);
+
   const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
   const params = new URLSearchParams(window.location.search);
   const todoId = params.get('id');
 
   // Nastav titulek stránky podle režimu
   if (!todoId) {
-    document.querySelector('h1').textContent = 'New Objective';
-    document.querySelector('h1 + p').textContent = 'Define your next focus task.';
-    document.querySelector('nav span.text-on-surface').textContent = 'New Task';
-    document.querySelector('button[type=submit]').textContent = 'Create Task';
+    document.getElementById('page-title').textContent = 'Create New Task';
+    document.getElementById('page-subtitle').textContent = 'Define your next focus task.';
+    document.getElementById('breadcrumb-label').textContent = 'New Task';
+    document.getElementById('save-btn').textContent = 'Create Task';
   }
 
   // Načti existující task při editaci
@@ -270,6 +324,7 @@
         document.getElementById('task-title').value = todo.title;
         document.getElementById('task-desc').value = todo.description || '';
         document.querySelector('input[type=checkbox]').checked = todo.completed;
+        checkForm();
       });
   }
 
@@ -294,5 +349,54 @@
   document.querySelector('button[type=button]').addEventListener('click', () => {
     window.location.href = 'dashboard.html';
   });
+
+  // New Task button
+  document.querySelector('.new-task-btn').addEventListener('click', () => {
+    window.location.href = 'edit-task.html';
+  });
+
+  // App version
+  fetch('assets/version.json').then(r => r.json()).then(d => {
+    const el = document.getElementById('app-version');
+    if (el) el.textContent = d.version;
+  }).catch(() => {});
+
+  // Mechanical clock
+  (function() {
+    function updateClock() {
+      const now = new Date();
+      const sec = now.getSeconds() + now.getMilliseconds() / 1000;
+      const min = now.getMinutes() + sec / 60;
+      const hour = (now.getHours() % 12) + min / 60;
+      document.getElementById('hand-second').style.transform = `translateX(-50%) rotate(${sec * 6}deg)`;
+      document.getElementById('hand-minute').style.transform = `translateX(-50%) rotate(${min * 6}deg)`;
+      document.getElementById('hand-hour').style.transform = `translateX(-50%) rotate(${hour * 30}deg)`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
+
+  // Back to top
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top');
+    if (window.scrollY > 100) {
+      btn.classList.remove('opacity-0', 'pointer-events-none');
+    } else {
+      btn.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
+
+  // Sidebar toggle
+  (function() {
+    const html = document.documentElement;
+    const icon = document.getElementById('toggle-icon');
+    const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (collapsed) { html.classList.add('sidebar-collapsed'); }
+    document.getElementById('sidebar-toggle').addEventListener('click', () => {
+      const isNowCollapsed = !html.classList.contains('sidebar-collapsed');
+      html.classList.toggle('sidebar-collapsed', isNowCollapsed);
+      localStorage.setItem('sidebarCollapsed', isNowCollapsed);
+    });
+  })();
 </script>
 </body></html>

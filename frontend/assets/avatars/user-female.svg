@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#efedf6"/>
+  <!-- Body -->
+  <ellipse cx="50" cy="85" rx="28" ry="20" fill="#71557c"/>
+  <!-- Head -->
+  <circle cx="50" cy="38" r="18" fill="#c9b8a8"/>
+  <!-- Hair -->
+  <ellipse cx="50" cy="22" rx="20" ry="12" fill="#3d2b1f"/>
+  <rect x="30" y="22" width="8" height="22" rx="4" fill="#3d2b1f"/>
+  <rect x="62" y="22" width="8" height="22" rx="4" fill="#3d2b1f"/>
+</svg>

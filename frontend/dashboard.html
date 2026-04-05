@@ -336,7 +336,7 @@
 <script>
   const API = 'http://localhost:8000';
   const auth = sessionStorage.getItem('auth');
-  if (!auth) window.location.href = 'login.html';
+  if (!auth) { window.location.href = 'login.html'; throw new Error('unauthenticated'); }
 
   const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
 
@@ -386,7 +386,13 @@
   }
 
   async function loadTodos() {
-    const res = await fetch(`${API}/todos`, { headers });
+    let res;
+    try {
+      res = await fetch(`${API}/todos`, { headers });
+    } catch {
+      document.getElementById('open-list').innerHTML = '<p class="text-error text-sm">Cannot connect to API. Make sure the backend is running.</p>';
+      return;
+    }
     if (res.status === 401) { window.location.href = 'login.html'; return; }
     const todos = await res.json();
 

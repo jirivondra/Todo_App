@@ -272,6 +272,42 @@
         margin-left: -0.75px;
         z-index: 4;
       }
+      /* Expandable search */
+      .search-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .search-input {
+        width: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 0.875rem;
+        color: #31323b;
+        transition:
+          width 0.3s ease,
+          opacity 0.3s ease,
+          padding 0.3s ease;
+        pointer-events: none;
+      }
+      .search-wrap.open .search-input {
+        width: 180px;
+        opacity: 1;
+        padding: 0 0.5rem;
+        pointer-events: all;
+      }
+      .search-wrap.open {
+        background: #f5f2fb;
+        border-radius: 9999px;
+        padding: 0.4rem 0.75rem;
+      }
+      .search-wrap:not(.open) {
+        gap: 0;
+      }
     </style>
   </head>
   <body class="bg-background text-on-background min-h-screen">
@@ -358,32 +394,50 @@
           <h2 class="text-2xl font-extrabold text-[#4656b8] font-['Manrope'] tracking-tight">
             Chronos
           </h2>
-          <div class="flex items-center gap-6">
-            <div class="hidden sm:flex items-center mr-2">
-              <div class="mech-clock">
-                <div class="mech-hand mech-hour" id="hand-hour"></div>
-                <div class="mech-hand mech-minute" id="hand-minute"></div>
-                <div class="mech-hand mech-second" id="hand-second"></div>
-              </div>
+          <div class="flex items-center gap-4">
+            <div class="mech-clock hidden sm:block">
+              <div class="mech-hand mech-hour" id="hand-hour"></div>
+              <div class="mech-hand mech-minute" id="hand-minute"></div>
+              <div class="mech-hand mech-second" id="hand-second"></div>
             </div>
-            <div class="flex items-center gap-4">
-              <a
-                href="logout.html"
-                class="flex items-center justify-center text-slate-500 hover:text-error transition-colors"
-                data-tip="Log out"
+            <div class="search-wrap hidden sm:flex" id="search-wrap">
+              <button
+                id="search-btn"
+                class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors"
+                data-tip="Search"
               >
-                <span class="material-symbols-outlined text-[22px]">logout</span>
-              </a>
-              <div
-                class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20 flex-shrink-0"
-                data-tip="Jiří Vondra"
-              >
-                <img
-                  alt="Jiří Vondra"
-                  class="w-full h-full object-cover"
-                  src="assets/avatars/admin.png"
-                />
-              </div>
+                <span class="material-symbols-outlined text-[22px]">search</span>
+              </button>
+              <input id="search-input" class="search-input" placeholder="Search..." type="text" />
+            </div>
+            <button
+              class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors"
+              data-tip="Notifications"
+            >
+              <span class="material-symbols-outlined text-[22px]">notifications</span>
+            </button>
+            <button
+              class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors"
+              data-tip="Settings"
+            >
+              <span class="material-symbols-outlined text-[22px]">settings</span>
+            </button>
+            <a
+              href="logout.html"
+              class="flex items-center justify-center text-slate-500 hover:text-error transition-colors"
+              data-tip="Log out"
+            >
+              <span class="material-symbols-outlined text-[22px]">logout</span>
+            </a>
+            <div
+              class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-primary/20 flex-shrink-0"
+              data-tip="Jiří Vondra"
+            >
+              <img
+                alt="Jiří Vondra"
+                class="w-full h-full object-cover"
+                src="assets/avatars/admin.png"
+              />
             </div>
           </div>
         </div>
@@ -696,6 +750,29 @@
           const isNowCollapsed = !html.classList.contains('sidebar-collapsed')
           html.classList.toggle('sidebar-collapsed', isNowCollapsed)
           localStorage.setItem('sidebarCollapsed', isNowCollapsed)
+        })
+      })()
+
+      // Expandable search
+      ;(function () {
+        const wrap = document.getElementById('search-wrap')
+        const btn = document.getElementById('search-btn')
+        const input = document.getElementById('search-input')
+        btn.addEventListener('click', () => {
+          wrap.classList.toggle('open')
+          if (wrap.classList.contains('open')) {
+            input.focus()
+            btn.removeAttribute('data-tip')
+          } else {
+            input.value = ''
+            btn.setAttribute('data-tip', 'Search')
+          }
+        })
+        input.addEventListener('blur', () => {
+          if (!input.value) {
+            wrap.classList.remove('open')
+            btn.setAttribute('data-tip', 'Search')
+          }
         })
       })()
     </script>

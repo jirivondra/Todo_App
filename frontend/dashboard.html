@@ -616,7 +616,7 @@
           })
 
           div.querySelector('.edit-btn').addEventListener('click', () => {
-            window.location.href = `edit-task.html?id=${todo.id}`
+            window.location.href = `edit-task.html?id=${todo.id}&from=dashboard`
           })
 
           div.querySelector('.delete-btn').addEventListener('click', async () => {
@@ -676,7 +676,7 @@
 
         // New Task tlačítko v sidebaru
         document.getElementById('new-task-btn').addEventListener('click', () => {
-          window.location.href = 'edit-task.html'
+          window.location.href = 'edit-task.html?from=dashboard'
         })
 
         // Sidebar toggle

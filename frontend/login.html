@@ -145,7 +145,7 @@
           id="error-msg"
           class="hidden mb-4 px-4 py-3 bg-error-container/20 text-error text-sm font-semibold rounded-lg"
         >
-          Invalid credentials. Please try again.
+          You have entered an incorrect username or password. Please check your login credentials.
         </div>
         <form id="login-form" class="space-y-6">
           <div class="space-y-2">
@@ -315,6 +315,15 @@
       validateField('username', 'username-error')
       validateField('password', 'password-error')
 
+      // Clear server-side credential error when user starts typing
+      ;['username', 'password'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+          document.getElementById('error-msg').classList.add('hidden')
+          document.getElementById('username').classList.remove('ring-error/50')
+          document.getElementById('password').classList.remove('ring-error/50')
+        })
+      })
+
       // Back to top
       window.addEventListener('scroll', () => {
         const btn = document.getElementById('back-to-top')
@@ -364,6 +373,8 @@
           window.location.href = 'dashboard.html'
         } else {
           document.getElementById('error-msg').classList.remove('hidden')
+          document.getElementById('username').classList.add('ring-error/50')
+          document.getElementById('password').classList.add('ring-error/50')
         }
       })
     </script>

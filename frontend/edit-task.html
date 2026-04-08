@@ -492,14 +492,13 @@
               <label
                 class="text-xs font-bold uppercase tracking-widest text-primary ml-1"
                 for="task-desc"
-                >Description <span class="text-error">*</span></label
+                >Description</label
               >
               <textarea
                 class="w-full bg-surface-container-low border-none rounded-2xl p-6 text-base text-on-surface-variant leading-relaxed focus:ring-2 focus:ring-primary transition-all placeholder:text-outline-variant"
                 id="task-desc"
                 placeholder="Enter task description..."
                 rows="6"
-                required
               ></textarea>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
@@ -674,12 +673,16 @@
 
       function checkForm() {
         const title = document.getElementById('task-title').value.trim()
-        const desc = document.getElementById('task-desc').value.trim()
-        document.getElementById('save-btn').disabled = !(title && desc)
+        if (todoId) {
+          document.getElementById('save-btn').disabled = !(title && hasUnsavedChanges())
+        } else {
+          document.getElementById('save-btn').disabled = !title
+        }
       }
 
       document.getElementById('task-title').addEventListener('input', checkForm)
       document.getElementById('task-desc').addEventListener('input', checkForm)
+      document.querySelector('input[type=checkbox]').addEventListener('change', checkForm)
 
       const headers = { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' }
       const params = new URLSearchParams(window.location.search)

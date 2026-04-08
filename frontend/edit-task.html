@@ -391,9 +391,18 @@
       <!-- Top Nav Bar -->
       <header class="bg-[#fbf8fe]/80 backdrop-blur-xl top-0 sticky z-40 h-20">
         <div class="flex justify-between items-center w-full px-8 h-full max-w-screen-2xl mx-auto">
-          <h2 class="text-2xl font-extrabold text-[#4656b8] font-['Manrope'] tracking-tight">
-            Chronos
-          </h2>
+          <div class="flex items-center gap-3">
+            <button
+              id="back-btn"
+              class="flex items-center justify-center text-slate-500 hover:text-primary transition-colors"
+              data-tip="Back"
+            >
+              <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+            </button>
+            <h2 class="text-2xl font-extrabold text-[#4656b8] font-['Manrope'] tracking-tight">
+              Chronos
+            </h2>
+          </div>
           <div class="flex items-center gap-4">
             <div class="mech-clock hidden sm:block">
               <div class="mech-hand mech-hour" id="hand-hour"></div>
@@ -595,6 +604,34 @@
         </div>
       </main>
     </div>
+    <!-- Unsaved Changes Dialog -->
+    <div id="back-dialog" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" id="dialog-backdrop"></div>
+      <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl p-8 max-w-sm w-full">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="material-symbols-outlined text-error text-2xl">warning</span>
+          <h3 class="font-headline font-bold text-xl text-on-surface">Unsaved Changes</h3>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-8">
+          You have unsaved changes. Would you like to save them before leaving?
+        </p>
+        <div class="flex gap-3 justify-end">
+          <button
+            id="dialog-cancel"
+            class="px-6 py-3 text-on-surface-variant font-bold text-sm hover:text-primary transition-colors rounded-xl"
+          >
+            No
+          </button>
+          <button
+            id="dialog-yes"
+            class="px-6 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-transform"
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+
     <button
       id="back-to-top"
       onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
@@ -648,6 +685,11 @@
       const params = new URLSearchParams(window.location.search)
       const todoId = params.get('id')
 
+      // Track original values for change detection (edit mode)
+      let originalTitle = ''
+      let originalDesc = ''
+      let originalCompleted = false
+
       // Nastav titulek stránky podle režimu
       if (!todoId) {
         document.getElementById('page-title').textContent = 'Create New Task'
@@ -664,11 +706,59 @@
             document.getElementById('task-title').value = todo.title
             document.getElementById('task-desc').value = todo.description || ''
             document.querySelector('input[type=checkbox]').checked = todo.completed
+            originalTitle = todo.title
+            originalDesc = todo.description || ''
+            originalCompleted = todo.completed
             checkForm()
           })
       }
 
-      // Uložení
+      function hasUnsavedChanges() {
+        const title = document.getElementById('task-title').value
+        const desc = document.getElementById('task-desc').value
+        const completed = document.querySelector('input[type=checkbox]').checked
+        if (todoId) {
+          return title !== originalTitle || desc !== originalDesc || completed !== originalCompleted
+        } else {
+          return title.trim() !== '' || desc.trim() !== ''
+        }
+      }
+
+      async function saveAndLeave() {
+        const body = {
+          title: document.getElementById('task-title').value,
+          description: document.getElementById('task-desc').value,
+          completed: document.querySelector('input[type=checkbox]').checked,
+        }
+        if (todoId) {
+          await fetch(`${API}/todos/${todoId}`, { method: 'PUT', headers, body: JSON.stringify(body) })
+        } else {
+          await fetch(`${API}/todos`, { method: 'POST', headers, body: JSON.stringify(body) })
+        }
+        window.location.href = 'dashboard.html'
+      }
+
+      // Back button
+      document.getElementById('back-btn').addEventListener('click', () => {
+        if (hasUnsavedChanges()) {
+          document.getElementById('back-dialog').classList.remove('hidden')
+        } else {
+          window.location.href = 'dashboard.html'
+        }
+      })
+
+      // Dialog — Yes (save & leave)
+      document.getElementById('dialog-yes').addEventListener('click', saveAndLeave)
+
+      // Dialog — No (close dialog, stay)
+      document.getElementById('dialog-cancel').addEventListener('click', () => {
+        document.getElementById('back-dialog').classList.add('hidden')
+      })
+      document.getElementById('dialog-backdrop').addEventListener('click', () => {
+        document.getElementById('back-dialog').classList.add('hidden')
+      })
+
+      // Uložení přes form submit
       document.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault()
         const body = {
